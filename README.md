@@ -1,4 +1,4 @@
-TREE Plus
+Needle
 ========
 
-Enhanced file browsing in the terminal
+Enhanced file searching in the terminal

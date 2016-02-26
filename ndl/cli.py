@@ -3,7 +3,7 @@ import os
 
 import click
 
-from needle import utils, filters
+from ndl import utils, filters
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 

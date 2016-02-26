@@ -1,5 +1,5 @@
 import os
-from . import filters as needle_filters
+from . import filters as ndl_filters
 
 
 class FilterOptions(object):
@@ -70,7 +70,7 @@ def apply_filters(tree, filters, options):
     filtered = tree.copy()
     # filters = sorted(filters)
     if options.prune_empty_dirs:
-        filters.append(needle_filters.PruneEmpty())
+        filters.append(ndl_filters.PruneEmpty())
     for f in filters:
         filtered = f.apply(filtered, options)
 

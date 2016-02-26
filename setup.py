@@ -1,22 +1,24 @@
-from distutils.core import import setup
+from distutils.core import setup
+
+__VERSION__ = '0.1'
 
 setup(
-    name='needle',
-    packages = ['needle']
-    py_modules=['needle'],
-    description = 'Easy file searching from the command-line'
-    author = 'Sully Sullenberger',
-    author_email = 'sully@sadburger.com'
-    url = 'https://github.com/msull/needle',
-    download_url = 'https://github.com/msull/needle/tarball/0.1',
-    keywords = ['search', 'files', 'terminal'],
-    classifiers = [],
-    version='0.1',
+    name='ndl',
+    packages=['ndl'],
+    py_modules=['ndl'],
+    description='Easy file searching from the command-line',
+    author='Sully Sullenberger',
+    author_email='sully@sadburger.com',
+    url='https://github.com/msull/needle',
+    download_url='https://github.com/msull/needle/tarball/%s' % __VERSION__,
+    keywords=['search', 'files', 'terminal'],
+    classifiers=[],
+    version=__VERSION__,
     install_requires=[
         'Click',
     ],
     entry_points="""
         [console_scripts]
-        ndl=needle.cli:cli
+        ndl=ndl.cli:cli
     """,
 )
