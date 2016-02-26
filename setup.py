@@ -1,9 +1,17 @@
-from setuptools import setup
+from distutils.core import import setup
 
 setup(
     name='needle',
+    packages = ['needle']
+    py_modules=['needle'],
+    description = 'Easy file searching from the command-line'
+    author = 'Sully Sullenberger',
+    author_email = 'sully@sadburger.com'
+    url = 'https://github.com/msull/needle',
+    download_url = 'https://github.com/msull/needle/tarball/0.1',
+    keywords = ['search', 'files', 'terminal'],
+    classifiers = [],
     version='0.1',
-    py_modules=['yourscript'],
     install_requires=[
         'Click',
     ],
