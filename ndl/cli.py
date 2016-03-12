@@ -30,7 +30,8 @@ def err_out(msg):
 
 
 @click.command(context_settings=CONTEXT_SETTINGS)
-@click.argument('path', default='.', type=click.Path(exists=True))
+@click.argument('default_filter', default="")
+@click.option('-p', '--path', default='.', type=click.Path(exists=True))
 @click.option('-s', '--startswith', default=None)
 @click.option('-e', '--endswith', default=None)
 @click.option('-f', '--fuzzy', default=None, multiple=True)
@@ -38,7 +39,9 @@ def err_out(msg):
 @click.option('--show-full-path/--hide-full-path', default=True)
 @click.option('--fuzzy-include-dir', is_flag=True)
 @click.option('-o', '--out-type', default='flat', type=click.Choice(['json', 'flat']))
+@click.option('-d', '--default-filter-type', default='fuzzy', type=click.Choice(['fuzzy', 'startswith', 'endswith', 'ignore']))
 def cli(
+        default_filter,
         path,
         startswith,
         endswith,
@@ -46,7 +49,8 @@ def cli(
         ignore,
         out_type,
         show_full_path,
-        fuzzy_include_dir):
+        fuzzy_include_dir,
+        default_filter_type):
 
     filter_options = utils.FilterOptions(
         fuzzy_include_dir=fuzzy_include_dir,
@@ -57,14 +61,25 @@ def cli(
     user_filters = []
     if ignore is not None:
         user_filters.extend((filters.IgnoreDir(x) for x in ignore))
+    if default_filter_type == 'ignore' and default_filter:
+        user_filters.append(filters.IgnoreDir(default_filter))
+
     if endswith is not None:
         user_filters.append(filters.EndsWith(endswith))
         # user_filters.extend([filters.EndsWith(x) for x in  endswith])
+    if default_filter_type == 'endswith' and default_filter:
+        user_filters.append(filters.EndsWith(default_filter))
+
     if startswith is not None:
         user_filters.append(filters.StartsWith(startswith))
         # user_filters.extend([filters.StartsWith(x) for x in startswith])
+    if default_filter_type == 'startswith' and default_filter:
+        user_filters.append(filters.StartsWith(default_filter))
+
     if fuzzy is not None:
         user_filters.extend([filters.FuzzyMatch(x) for x in fuzzy])
+    if default_filter_type == 'fuzzy' and default_filter:
+        user_filters.append(filters.FuzzyMatch(default_filter))
 
     filtered_tree = utils.apply_filters(base_tree, user_filters, filter_options)
     filter_options.store_filters(user_filters)
